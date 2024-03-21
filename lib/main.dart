@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:test_drive/dark_mode/theme_provider.dart';
 import 'package:test_drive/name/text_provider.dart';
-import 'package:test_drive/sample.dart';
-import 'package:test_drive/utils.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,17 +21,19 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => TextProvider())
       ],
       child: Consumer<ThemeProvider>(builder: (context, theme, _) {
-        return MaterialApp(
-          title: 'Flutter Demo',
-          theme: theme.isDarkMode
-              ? ThemeData.dark()
-              : ThemeData(
-                  cardColor: Colors.orange,
-                  colorScheme:
-                      ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-                  useMaterial3: true,
-                ),
-          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        return const MaterialApp(
+          title: 'Localizations Sample App',
+          localizationsDelegates: [
+            AppLocalizations.delegate, // Add this line
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            Locale('en'), // English
+            Locale('es'), // Spanish
+          ],
+          home: MyHomePage(title: 'Flutter Demo Home Page'),
         );
       }),
     );
@@ -50,53 +50,59 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     var theme = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Consumer<TextProvider>(builder: (context, tp, _) {
-          return Text(tp.title);
-        }),
+        title: Text(AppLocalizations.of(context)!.helloWorld),
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Flexible(
-              child: Container(
-                width: 200,
-                color: Theme.of(context).cardColor,
-              ),
-            ),
-            const Text("Input Image SRC"),
-            Image.network(
-                "https://th.bing.com/th/id/OIP.avb9nDfw3kq7NOoP0grM4wHaEK?rs=1&pid=ImgDetMain"),
-            TextFormField(),
-            ElevatedButton(
-                onPressed: () {
-                  go(context,const SampleScreen());
+            Localizations.override(
+              context: context,
+              locale: const Locale('es'),
+              child: Builder(
+                builder: (context) {
+                  // Examples of internationalized strings.
+                  return Column(
+                    children: <Widget>[
+                      // Returns 'Hello John'
+                      Text(AppLocalizations.of(context)!.hello('John')),
+                      // Returns 'no wombats'
+                      Text(AppLocalizations.of(context)!.nWombats(0)),
+                      // Returns '1 wombat'
+                      Text(AppLocalizations.of(context)!.nWombats(1)),
+                      // Returns '5 wombats'
+                      Text(AppLocalizations.of(context)!.nWombats(5)),
+                      // Returns 'he'
+                      Text(AppLocalizations.of(context)!.pronoun('male')),
+                      // Returns 'she'
+                      Text(AppLocalizations.of(context)!.pronoun('female')),
+                      // Returns 'they'
+                      Text(AppLocalizations.of(context)!.pronoun('other')),
+                      //Messages with number and currencies
+                      Text(AppLocalizations.of(context)!
+                          .numberOfDataPoints(250)),
+                      //Messages with dates
+                      Text(AppLocalizations.of(context)!
+                          .helloWorldOn(DateTime.utc(1959, 7, 9))),
+
+
+                      //A toy example for an internationalized Material widget.
+                      CalendarDatePicker(
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime(2100),
+                          onDateChanged: (value) {})
+                    ],
+                  );
                 },
-                child: const Text("Next Screen")),
-            Flexible(
-              child: Container(
-                width: 200,
-                color: Colors.blue,
               ),
             ),
-            Flexible(
-              child: Container(
-                width: 200,
-                color: Colors.green,
-              ),
-            )
+
           ],
         ),
       ),
