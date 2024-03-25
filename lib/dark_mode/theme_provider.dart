@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class ThemeProvider extends ChangeNotifier {
   String statusMode = 'Light';
   bool isDarkMode = false;
+  Locale currentLocale = const Locale('en'); // Add this line to store the current locale
 
   void toggleDarkMode() {
     isDarkMode = !isDarkMode;
@@ -11,6 +12,12 @@ class ThemeProvider extends ChangeNotifier {
     } else {
       statusMode = 'Light';
     }
+    notifyListeners();
+  }
+
+  // Method to update the current locale
+  void updateLocale(Locale locale) {
+    currentLocale = locale;
     notifyListeners();
   }
 }

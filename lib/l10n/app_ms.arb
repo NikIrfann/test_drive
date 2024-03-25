@@ -1,0 +1,58 @@
+{
+  "helloWorld": "Halo Dunia!",
+  "@helloWorld": {
+    "description": "Salam pembukaan yang konvensional bagi pembangun baru"
+  },
+  "hello": "Halo {userName}",
+  "@hello": {
+    "description": "Mesej dengan satu parameter",
+    "placeholders": {
+      "userName": {
+        "type": "String",
+        "example": "Bob"
+      }
+    }
+  },
+  "nWombats": "{count, plural, =0{tiada wombat} =1{1 wombat} other{{count} wombat}}",
+  "@nWombats": {
+    "description": "Mesej berbilang",
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "pronoun": "{gender, select, male{lelaki} female{perempuan} other{mereka}}",
+  "@pronoun": {
+    "description": "Mesej berjenama jantina",
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "numberOfDataPoints": "Bilangan data: {value}",
+  "@numberOfDataPoints": {
+    "description": "Mesej dengan parameter int yang diformat",
+    "placeholders": {
+      "value": {
+        "type": "int",
+        "format": "compactCurrency",
+        "optionalParameters": {
+          "decimalDigits": 2
+        }
+      }
+    }
+  },
+  "helloWorldOn": "Halo Dunia pada {date}",
+  "@helloWorldOn": {
+    "description": "Mesej dengan parameter tarikh",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  }
+}
